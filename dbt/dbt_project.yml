@@ -1,0 +1,25 @@
+name: 'dados_publicos'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dbt_dados_publicos'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+analysis-paths: ["analyses"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dados_publicos:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: ephemeral
+    marts:
+      +materialized: table

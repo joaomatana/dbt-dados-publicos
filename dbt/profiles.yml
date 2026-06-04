@@ -1,0 +1,10 @@
+# profiles.yml versionado no projeto (reprodutibilidade). O dbt Core procura este
+# arquivo no diretório de trabalho atual, então rode os comandos a partir de `dbt/`.
+# O .duckdb fica na raiz do repo e está no .gitignore.
+dbt_dados_publicos:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "../dados_publicos.duckdb"
+      threads: 4

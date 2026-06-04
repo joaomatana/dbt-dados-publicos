@@ -1,0 +1,4 @@
+-r requirements.txt
+sqlfluff~=3.2
+sqlfluff-templater-dbt~=3.2
+pre-commit>=3.7.0

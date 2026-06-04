@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+logs/
+
+# DuckDB warehouse (nunca commitar)
+*.duckdb
+*.duckdb.wal
+
+# Dados crus da ANP (nunca commitar os CSVs, mas manter a pasta)
+extract/raw/*
+!extract/raw/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,15 @@
+# sqlfluff lint/fix nos modelos dbt (templater dbt + dialeto duckdb).
+# Rode `pre-commit install` uma vez e, se necessário, `pre-commit autoupdate`
+# para fixar a versão mais recente do sqlfluff.
+repos:
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 3.2.5
+    hooks:
+      - id: sqlfluff-lint
+        additional_dependencies:
+          - dbt-duckdb
+          - sqlfluff-templater-dbt
+      - id: sqlfluff-fix
+        additional_dependencies:
+          - dbt-duckdb
+          - sqlfluff-templater-dbt
