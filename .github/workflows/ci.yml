@@ -22,8 +22,10 @@ jobs:
 
       - run: pip install -r requirements.txt -r requirements-dev.txt
 
-      - name: Baixa uma amostra (GLP, último ano)
-        run: python extract/download_anp.py --produtos glp --ano-inicio "$(( $(date +%Y) - 1 ))"
+      - name: Carrega o fixture (CI determinístico, sem rede)
+        run: |
+          cp tests/fixtures/anp_amostra.csv extract/raw/
+          python extract/download_anp.py --sem-download
 
       - name: dbt build (models + testes)
         working-directory: dbt

@@ -43,6 +43,8 @@ def parse_args() -> argparse.Namespace:
                    help="Produtos separados por vírgula.")
     p.add_argument("--listar", action="store_true",
                    help="Lista os arquivos selecionados sem baixar (dry-run).")
+    p.add_argument("--sem-download", action="store_true",
+                   help="Não baixa; apenas carrega os CSVs já em extract/raw/.")
     return p.parse_args()
 
 
@@ -119,18 +121,21 @@ def main() -> None:
     args = parse_args()
     RAW_DIR.mkdir(parents=True, exist_ok=True)
 
-    with requests.Session() as session:
-        session.headers.update(HEADERS)
-        urls = filtrar(descobrir(session), args)
-        print(f"Selecionados: {len(urls)} arquivos")
-        if args.listar:
-            for u in urls:
-                print(f"  {ano_de(u)}  {produto_de(u):16}  {u.rsplit('/', 1)[-1]}")
-            return
-        if not urls:
-            return
-        for i, u in enumerate(urls, 1):
-            print(f"[{i}/{len(urls)}] {baixar(session, u).name}")
+    if not args.sem_download:
+        with requests.Session() as session:
+            session.headers.update(HEADERS)
+            urls = filtrar(descobrir(session), args)
+            print(f"Selecionados: {len(urls)} arquivos")
+            if args.listar:
+                for u in urls:
+                    print(f"  {ano_de(u)}  {produto_de(u):16}  {u.rsplit('/', 1)[-1]}")
+                return
+            for i, u in enumerate(urls, 1):
+                print(f"[{i}/{len(urls)}] {baixar(session, u).name}")
+
+    if not list(RAW_DIR.glob("*.csv")):
+        print("Nenhum CSV em extract/raw/ para carregar.")
+        return
 
     con = duckdb.connect(str(DUCKDB_PATH))
     try:
