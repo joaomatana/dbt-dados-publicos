@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Baixa uma amostra (GLP, último ano)
+        run: python extract/download_anp.py --produtos glp --ano-inicio "$(( $(date +%Y) - 1 ))"
+
+      - name: dbt build (models + testes)
+        working-directory: dbt
+        run: dbt build
+
+      - name: sqlfluff lint
+        run: sqlfluff lint dbt/models
