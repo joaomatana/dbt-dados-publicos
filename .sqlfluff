@@ -2,13 +2,12 @@
 dialect = duckdb
 templater = dbt
 max_line_length = 120
+exclude_rules = RF06, ST06
 
 [sqlfluff:templater:dbt]
 project_dir = dbt
 profiles_dir = dbt
+target = lint
 
 [sqlfluff:rules:capitalisation.keywords]
-capitalisation_policy = lower
-
-[sqlfluff:rules:capitalisation.identifiers]
 capitalisation_policy = lower

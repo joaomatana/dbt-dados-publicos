@@ -8,3 +8,7 @@ dbt_dados_publicos:
       type: duckdb
       path: "../dados_publicos.duckdb"
       threads: 4
+    lint:
+      type: duckdb
+      path: ":memory:"
+      threads: 1

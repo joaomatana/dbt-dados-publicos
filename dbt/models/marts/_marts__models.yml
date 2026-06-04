@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: mart_preco_medio_uf_mes
+    description: Preço médio (ponderado por nº de coletas) de venda por UF, produto, ano e mês.
+    columns:
+      - name: id
+        data_tests:
+          - not_null
+          - unique
+      - name: uf
+        data_tests:
+          - not_null
+      - name: produto
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['GASOLINA','GASOLINA ADITIVADA','ETANOL','DIESEL','DIESEL S10','GNV','GLP']
+      - name: preco_medio_venda
+        data_tests:
+          - not_null
+          - positivo
+
+  - name: mart_variacao_preco
+    description: Variação percentual mês a mês do preço médio de venda por UF e produto.
+    columns:
+      - name: id
+        data_tests:
+          - not_null
+          - unique
+      - name: variacao_pct
+        description: Variação % vs. mês anterior (nulo no primeiro mês da série).
+
+  - name: mart_dispersao_revenda
+    description: >
+      Dispersão dos preços de venda entre municípios por UF/produto/mês (proxy de
+      concorrência). margem_media (venda−compra) fica nula enquanto a ANP não publica
+      o valor de compra na série mensal.
+    columns:
+      - name: id
+        data_tests:
+          - not_null
+          - unique
+      - name: coef_variacao_pct
+        description: Desvio-padrão / média dos preços médios municipais, em %.
