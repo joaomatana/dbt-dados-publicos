@@ -10,19 +10,22 @@ models:
         description: Sigla da região (normalizada).
         data_tests:
           - accepted_values:
-              values: ['N', 'NE', 'CO', 'SE', 'S']
+              arguments:
+                values: ['N', 'NE', 'CO', 'SE', 'S']
       - name: uf
         description: Sigla da unidade federativa.
         data_tests:
           - not_null
           - accepted_values:
-              values: ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RO','RR','RS','SC','SE','SP','TO']
+              arguments:
+                values: ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RO','RR','RS','SC','SE','SP','TO']
       - name: produto
         description: Produto pesquisado.
         data_tests:
           - not_null
           - accepted_values:
-              values: ['GASOLINA','GASOLINA ADITIVADA','ETANOL','DIESEL','DIESEL S10','GNV','GLP']
+              arguments:
+                values: ['GASOLINA','GASOLINA ADITIVADA','ETANOL','DIESEL','DIESEL S10','GNV','GLP']
       - name: data_coleta
         description: Data da coleta do preço.
         data_tests:

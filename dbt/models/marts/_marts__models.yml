@@ -16,7 +16,8 @@ models:
         data_tests:
           - not_null
           - accepted_values:
-              values: ['GASOLINA','GASOLINA ADITIVADA','ETANOL','DIESEL','DIESEL S10','GNV','GLP']
+              arguments:
+                values: ['GASOLINA','GASOLINA ADITIVADA','ETANOL','DIESEL','DIESEL S10','GNV','GLP']
       - name: preco_medio_venda
         description: Preço médio ponderado de venda (R$).
         data_tests:
