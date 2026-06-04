@@ -10,11 +10,11 @@ ELT dos preços de combustíveis da ANP (dados públicos brasileiros) com **dbt 
 Pipeline de analytics engineering que baixa a Série Histórica de Preços de Combustíveis da ANP, trata o dado sujo real e o modela em camadas (staging → intermediate → marts) com testes, docs e CI/CD.
 
 ## Stack e os porquês
-- **dbt-core** — transformação em SQL versionado, com testes, documentação e linhagem de graça; modelagem em camadas explícita.
-- **DuckDB** — warehouse analítico **em arquivo**, zero infraestrutura: roda igual no laptop e no CI, lê CSV sujo nativamente e é rápido em agregação colunar. Sem custo de nuvem para um projeto de portfólio.
-- **ELT, não ETL** — carrego o CSV cru primeiro (`raw` no DuckDB) e transformo **dentro** do warehouse com dbt. O bruto fica reprodutível e auditável; a regra de negócio vive em SQL testável, não num script de extração.
-- **Python (requests)** — extração: descobre os arquivos na página da ANP, baixa e normaliza o encoding.
-- **GitHub Actions** — build + testes + lint a cada push; refresh semanal que rebaixa, reconstrói e publica os docs no Pages.
+- **dbt-core** - transformação em SQL versionado, com testes, documentação e linhagem de graça; modelagem em camadas explícita.
+- **DuckDB** - warehouse analítico **em arquivo**, zero infraestrutura: roda igual no laptop e no CI, lê CSV sujo nativamente e é rápido em agregação colunar. Sem custo de nuvem para um projeto de portfólio.
+- **ELT, não ETL** - carrego o CSV cru primeiro (`raw` no DuckDB) e transformo **dentro** do warehouse com dbt. O bruto fica reprodutível e auditável; a regra de negócio vive em SQL testável, não num script de extração.
+- **Python (requests)** - extração: descobre os arquivos na página da ANP, baixa e normaliza o encoding.
+- **GitHub Actions** - build + testes + lint a cada push; refresh semanal que rebaixa, reconstrói e publica os docs no Pages.
 
 ## Arquitetura
 ```mermaid
@@ -30,8 +30,8 @@ flowchart LR
     MMES --> DOCS[dbt docs · GitHub Pages]
 ```
 
-## Tratamento de dado sujo (o diferencial)
-A série da ANP é dado público real — e bagunçado. O pipeline trata, entre outros:
+## Tratamento de dado sujo
+A série da ANP é dado público real e bagunçado. O pipeline trata, entre outros:
 - **Encoding misto**: arquivos recentes em UTF-8 com BOM, antigos em Latin-1 → detecção e normalização para UTF-8.
 - **Linhas em branco** entre registros (arquivos de GLP) → `strict_mode=false` na carga.
 - **Quebra de linha embutida** em `Regiao - Sigla` (`\nCO`) → limpeza no staging.
