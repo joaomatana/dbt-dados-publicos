@@ -1,9 +1,10 @@
 with mensal as (
-    select * from {{ ref('mart_preco_medio_uf_mes') }}
+    select * from {{ ref('int_precos_uf_mes') }}
 ),
 
 com_anterior as (
     select
+        id,
         uf,
         produto,
         ano,
@@ -16,7 +17,7 @@ com_anterior as (
 )
 
 select
-    md5(concat_ws('|', uf, produto, cast(ano as varchar), cast(mes as varchar))) as id,
+    id,
     uf,
     produto,
     ano,

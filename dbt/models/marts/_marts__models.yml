@@ -5,6 +5,7 @@ models:
     description: Preço médio (ponderado por nº de coletas) de venda por UF, produto, ano e mês.
     columns:
       - name: id
+        description: Chave do grão (UF, produto, ano, mês).
         data_tests:
           - not_null
           - unique
@@ -17,6 +18,7 @@ models:
           - accepted_values:
               values: ['GASOLINA','GASOLINA ADITIVADA','ETANOL','DIESEL','DIESEL S10','GNV','GLP']
       - name: preco_medio_venda
+        description: Preço médio ponderado de venda (R$).
         data_tests:
           - not_null
           - positivo
@@ -25,11 +27,25 @@ models:
     description: Variação percentual mês a mês do preço médio de venda por UF e produto.
     columns:
       - name: id
+        description: Chave do grão (UF, produto, ano, mês).
         data_tests:
           - not_null
           - unique
+      - name: uf
+        data_tests:
+          - not_null
+      - name: produto
+        data_tests:
+          - not_null
+      - name: preco_medio_venda
+        description: Preço médio de venda no mês (R$).
+        data_tests:
+          - not_null
+          - positivo
+      - name: preco_mes_anterior
+        description: Preço médio de venda do mês anterior (nulo no 1º mês da série).
       - name: variacao_pct
-        description: Variação % vs. mês anterior (nulo no primeiro mês da série).
+        description: Variação % vs. mês anterior (nulo no 1º mês da série).
 
   - name: mart_dispersao_revenda
     description: >
@@ -38,8 +54,21 @@ models:
       o valor de compra na série mensal.
     columns:
       - name: id
+        description: Chave do grão (UF, produto, ano, mês).
         data_tests:
           - not_null
           - unique
+      - name: uf
+        data_tests:
+          - not_null
+      - name: produto
+        data_tests:
+          - not_null
+      - name: amplitude_venda
+        description: Diferença entre o maior e o menor preço de venda no grão (R$).
+        data_tests:
+          - not_null
       - name: coef_variacao_pct
         description: Desvio-padrão / média dos preços médios municipais, em %.
+      - name: margem_media
+        description: Margem média estimada (venda − compra); nula sem valor de compra na fonte.
